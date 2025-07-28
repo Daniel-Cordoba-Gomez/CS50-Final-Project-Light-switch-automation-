@@ -4,7 +4,6 @@ import os
 import requests
 from functools import wraps
 
-
 app = Flask(__name__)
 app.secret_key = "wefbiwwuufhh3h87fsjdvhsdidsufuueg3i4grejvig34tigsbgd8g7wy436weragb39299euf2gff"
 
@@ -21,6 +20,14 @@ def init_db():
                 password TEXT NOT NULL
             );
         """)
+        conn.execute("""
+            CREATE TABLE IF NOT EXISTS alarms (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id INTEGER,
+                hour INTEGER,
+                minute INTEGER
+            );
+        """)
 
 init_db()
 
@@ -34,7 +41,6 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -45,7 +51,7 @@ def login():
             user = cur.fetchone()
             if user:
                 session["username"] = username
-                session["user_id"] = user[0]  # Save user ID for login_required
+                session["user_id"] = user[0]  # Save ID for login_required
                 return redirect(url_for("home"))
         return render_template("login.html", error="Invalid credentials")
     return render_template("login.html")
@@ -91,57 +97,53 @@ def requirements():
     return render_template("requirements.html")
 
 @app.route("/alarm")
+@login_required
 def alarm_page():
-    if "username" not in session:
-        return redirect(url_for("login"))
     return render_template("alarm.html")
 
-@app.route('/alarms')
-@login_required
-def view_alarms():
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    cursor.execute("SELECT id, hour, minute FROM alarms WHERE user_id = ?", (session['user_id'],))
-    alarms = cursor.fetchall()
-    conn.close()
-    return render_template('alarms.html', alarms=alarms)
-
-@app.route('/delete-alarm/<int:alarm_id>', methods=['POST'])
-@login_required
-def delete_alarm(alarm_id):
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    cursor.execute("DELETE FROM alarms WHERE id = ? AND user_id = ?", (alarm_id, session['user_id']))
-    conn.commit()
-    conn.close()
-    flash('Alarm deleted successfully.')
-    return redirect(url_for('view_alarms'))
-
-
-
 @app.route("/switch")
+@login_required
 def switch_control():
-    if "username" not in session:
-        return redirect(url_for("login"))
     return render_template("switch_control.html")
 
+@app.route("/alarms")
+@login_required
+def view_alarms():
+    with sqlite3.connect(DB_PATH) as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT id, hour, minute FROM alarms WHERE user_id = ?", (session["user_id"],))
+        alarms = cursor.fetchall()
+    return render_template("alarms.html", alarms=alarms)
+
+@app.route("/delete-alarm/<int:alarm_id>", methods=["POST"])
+@login_required
+def delete_alarm(alarm_id):
+    with sqlite3.connect(DB_PATH) as conn:
+        conn.execute("DELETE FROM alarms WHERE id = ? AND user_id = ?", (alarm_id, session["user_id"]))
+    flash("Alarm deleted successfully.")
+    return redirect(url_for("view_alarms"))
+
 # ---------- ESP32 COMMUNICATION ----------
-@app.route("/alarm", methods=["POST"])
+@app.route("/set-alarm", methods=["POST"])
+@login_required
 def send_alarm():
-    if "username" not in session:
-        return jsonify({"error": "Unauthorized"}), 401
     hour = request.form.get("hour")
     minute = request.form.get("minute")
     try:
         r = requests.post(f"http://{ESP32_IP}/alarm", data={"hour": hour, "minute": minute}, timeout=2)
+
+        # Save alarm to database
+        with sqlite3.connect(DB_PATH) as conn:
+            conn.execute("INSERT INTO alarms (user_id, hour, minute) VALUES (?, ?, ?)",
+                         (session["user_id"], hour, minute))
+
         return jsonify(r.json())
     except Exception as e:
         return jsonify({"error": f"ESP32 not reachable: {str(e)}"})
 
 @app.route("/switch", methods=["POST"])
+@login_required
 def send_switch():
-    if "username" not in session:
-        return jsonify({"error": "Unauthorized"}), 401
     action = request.form.get("action")
     try:
         r = requests.post(f"http://{ESP32_IP}/control", data={"action": action}, timeout=2)
