@@ -1,0 +1,37 @@
+# Compiled object files
+*.o
+
+# Executables
+*.out
+*.exe
+
+# Build directories
+/build/
+/bin/
+/obj/
+
+# Editor directories and files
+.vscode/
+.idea/
+*.swp
+*~
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Python cache and environment (if applicable)
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+env/
+venv/
+
+# Logs and databases
+*.log
+*.sqlite3
+
+# Backup files
+*.bak
+*.backup
