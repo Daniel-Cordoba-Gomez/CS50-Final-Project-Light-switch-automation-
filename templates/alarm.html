@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Alarm{% endblock %}
+
+{% block content %}
+<section>
+  <h1>Set Alarm</h1>
+  <p>Use this form to schedule a light activation alarm. At the specified time, the servo will turn the light on for 10 minutes to help you wake up naturally.</p>
+
+  <form id="alarm-form" onsubmit="setAlarm(event)">
+    <label for="hour">Hour (0–23):</label>
+    <input type="number" name="hour" id="hour" min="0" max="23" required>
+
+    <label for="minute">Minute (0–59):</label>
+    <input type="number" name="minute" id="minute" min="0" max="59" required>
+
+    <button type="submit">Set Alarm</button>
+  </form>
+
+  <p id="alarm-status"></p>
+
+  <script>
+    async function setAlarm(event) {
+      event.preventDefault();
+      const hour = document.getElementById('hour').value;
+      const minute = document.getElementById('minute').value;
+
+      const response = await fetch('/alarm', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: new URLSearchParams({ hour, minute })
+      });
+
+      const result = await response.json();
+      document.getElementById('alarm-status').textContent = result.message || result.error;
+    }
+  </script>
+</section>
+{% endblock %}

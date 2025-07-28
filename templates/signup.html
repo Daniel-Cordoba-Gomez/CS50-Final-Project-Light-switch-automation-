@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Sign Up{% endblock %}
+
+{% block content %}
+<section>
+  <h1>Create an Account</h1>
+  <form method="POST" action="{{ url_for('signup') }}">
+    <label for="username">Username:</label>
+    <input type="text" name="username" required>
+
+    <label for="password">Password:</label>
+    <input type="password" name="password" required>
+
+    <button type="submit">Sign Up</button>
+  </form>
+
+  <p>Already have an account? <a href="{{ url_for('login') }}">Log in here</a>.</p>
+  {% if error %}
+    <p style="color: red;">{{ error }}</p>
+  {% endif %}
+</section>
+{% endblock %}

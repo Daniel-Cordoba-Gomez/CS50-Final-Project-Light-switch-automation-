@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}How It Works{% endblock %}
+
+{% block content %}
+<section>
+  <h1>How CS50 Switch Works</h1>
+
+  <h2>The Concept Behind the Light-Driven Wake-Up</h2>
+  <p>
+    CS50 Switch is built on a simple yet powerful idea: using **automated lighting** to support natural wake-up cycles. 
+    Instead of relying solely on sound alarms, the system controls a physical light switch using a servo motor attached to a microcontroller. 
+    The servo flips the switch ON just before your set wake-up time, allowing light to gradually stimulate alertness.
+  </p>
+
+  <h2>System Overview</h2>
+  <p>
+    At the heart of the system is an <strong>ESP32</strong> microcontroller, chosen for its built-in Wi-Fi support and low power consumption. 
+    This board hosts a lightweight HTTP server that listens for incoming commands from the web interface. 
+    These commands are either manual (turn ON/OFF) or scheduled (alarm time).
+  </p>
+
+  <p>
+    Once a command is received, the ESP32 actuates a <strong>servo motor</strong> physically connected to your light switch.
+    The servo rotates to simulate pressing the switch, giving you full mechanical control without modifying your electrical system.
+  </p>
+
+  <h2>Software Architecture</h2>
+  <ul>
+    <li><strong>Flask Backend:</strong> Manages the user interface, authentication, and communicates with the ESP32 over HTTP.</li>
+    <li><strong>ESP32 Server:</strong> Hosts `/control` and `/alarm` endpoints to receive commands from Flask.</li>
+    <li><strong>Jinja Templates:</strong> Provide a clean, reusable structure for all pages on the platform.</li>
+    <li><strong>SQLite Database:</strong> Stores user credentials securely (in a simple CS50-project context).</li>
+  </ul>
+
+  <h2>The Flow</h2>
+  <ol>
+    <li>User logs into the CS50 Switch dashboard.</li>
+    <li>They either set an alarm or press a manual switch toggle.</li>
+    <li>The Flask app sends a POST request to the ESP32 at its IP address (e.g., 192.168.0.38).</li>
+    <li>The ESP32 receives the command, and the servo moves accordingly.</li>
+    <li>If it’s an alarm, the ESP32 checks the current time and activates the switch when time matches.</li>
+  </ol>
+
+  <h2>Physical Setup</h2>
+  <p>
+    The servo is attached near your wall switch using tape or a 3D-printed bracket. It rotates from 0° to 90° to toggle the light ON,
+    and returns to 0° to reset the switch. All this happens seamlessly based on your web interface settings.
+  </p>
+
+  <h2>Built for Simplicity and Reliability</h2>
+  <p>
+    This project minimizes reliance on third-party APIs or cloud services. Everything runs on your **local network**, keeping latency low and reliability high.
+    It’s the perfect hands-on engineering example of IoT control, combining web development, embedded programming, and hardware integration.
+  </p>
+</section>
+{% endblock %}

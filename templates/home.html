@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<section>
+  <h1>CS50 Switch: Wake Up Smarter</h1>
+  <p>
+    Welcome to <strong>CS50 Switch</strong> — a smart, automatic light switch system designed to help you wake up naturally and comfortably using timed lighting. 
+    Rather than waking up to the harsh jolt of a loud alarm, CS50 Switch uses a physical servo motor to turn your room light on at a scheduled time, 
+    giving your body and mind time to adjust to the light gradually before you're even out of bed.
+  </p>
+
+  <h2>The Purpose Behind CS50 Switch</h2>
+  <p>
+    Getting out of bed in the morning can be tough. Especially in dark rooms or colder months, the sudden switch from deep sleep to total wakefulness is not ideal.
+    That’s why CS50 Switch was developed — to provide a seamless transition from sleep to wakefulness by automatically activating your lights <strong>10 minutes before your alarm</strong>.
+    This gentle light exposure prepares your brain to wake up more naturally, reducing grogginess and improving mood and mental performance for the rest of the day.
+  </p>
+
+  <h2>Built for Simplicity, Designed for Purpose</h2>
+  <p>
+    CS50 Switch is a fully self-contained system that connects to your Wi-Fi and operates through a minimal, secure web interface. You can set alarms, toggle the light manually, and check your setup status from any device on your home network. Whether you're a student working on your final project or a tech enthusiast experimenting with home automation, CS50 Switch offers a solid foundation for smart living.
+  </p>
+
+  <h2>Why You'll Love It</h2>
+  <ul>
+    <li><strong>Wake Easier:</strong> Natural light activation before your alarm.</li>
+    <li><strong>Stress-Free Mornings:</strong> No more sudden wake-ups or scrambling to turn on lights.</li>
+    <li><strong>Automated Convenience:</strong> Schedule it once and forget it.</li>
+    <li><strong>Built on Real Hardware:</strong> Designed for use with ESP32 and servo motors.</li>
+    <li><strong>Built as a CS50 Project:</strong> Practical, functional, and fully coded.</li>
+  </ul>
+
+  <h2>What’s Next?</h2>
+  <p>
+    Explore the rest of the site to learn more about how CS50 Switch works, its requirements, and how it was engineered. Dive into the <a href="{{ url_for('how_it_works') }}">How It Works</a> page to understand the hardware behind the magic, or visit the <a href="{{ url_for('alarm_page') }}">Alarm</a> section to start scheduling.
+  </p>
+
+  <p>
+    <em>CS50 Switch is not a commercial product, but rather an educational project built with love, code, and lots of debugging.</em>
+  </p>
+</section>
+{% endblock %}

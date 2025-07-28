@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Switch Control{% endblock %}
+
+{% block content %}
+<section>
+  <h1>Manual Switch Control</h1>
+  <p>Use the buttons below to manually turn your light switch on or off using the servo motor.</p>
+
+  <button onclick="sendCommand('on')">Turn ON</button>
+  <button onclick="sendCommand('off')">Turn OFF</button>
+
+  <p id="switch-status"></p>
+
+  <script>
+    async function sendCommand(action) {
+      const response = await fetch('/switch', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: new URLSearchParams({ action })
+      });
+
+      const result = await response.json();
+      document.getElementById('switch-status').textContent = result.message || result.error;
+    }
+  </script>
+</section>
+{% endblock %}

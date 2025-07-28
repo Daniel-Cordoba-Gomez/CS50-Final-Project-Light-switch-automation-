@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CS50 Switch | {% block title %}{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <header>
+    <nav class="topbar">
+      <a href="{{ url_for('home') }}" class="brand">CS50 Switch</a>
+      <ul class="nav-links">
+        <li><a href="{{ url_for('home') }}">Home</a></li>
+        <li><a href="{{ url_for('how_it_works') }}">How It Works</a></li>
+        <li><a href="{{ url_for('specs') }}">Specs</a></li>
+        <li><a href="{{ url_for('requirements') }}">Requirements</a></li>
+        <li><a href="{{ url_for('switch_control') }}">Switch</a></li>
+        <li><a href="{{ url_for('alarm_page') }}">Alarm</a></li>
+        <li><a href="{{ url_for('view_alarms') }}">My Alarms</a></li>
+
+        {% if 'username' in session %}
+          <li><a href="{{ url_for('logout') }}">Logout ({{ session.username }})</a></li>
+        {% else %}
+          <li><a href="{{ url_for('login') }}">Login</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer>
+    <p>CS50 Final Project | Not a commercial product</p>
+  </footer>
+</body>
+</html>

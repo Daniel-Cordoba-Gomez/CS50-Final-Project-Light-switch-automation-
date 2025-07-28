@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}Specifications{% endblock %}
+
+{% block content %}
+<section>
+  <h1>Technical Specifications</h1>
+
+  <p>
+    CS50 Switch is designed to be simple to implement, flexible for experimentation, and optimized for working within your local network.
+    Below you’ll find a full breakdown of the hardware and software components, electrical characteristics, and operational parameters for the system.
+  </p>
+
+  <h2>Hardware Components</h2>
+  <ul>
+    <li><strong>Microcontroller:</strong> ESP32-WROOM-32 (or similar ESP32 board with Wi-Fi)</li>
+    <li><strong>Servo Motor:</strong> SG90 or MG90S 9g servo</li>
+    <li><strong>Power Supply:</strong> 5V USB or external power adapter (with enough current for servo)</li>
+    <li><strong>Control Pin:</strong> GPIO13 (used for controlling the servo rotation)</li>
+    <li><strong>Mounting:</strong> Double-sided tape, adhesive mount, or 3D printed holder for light switch</li>
+  </ul>
+
+  <h2>Software Stack</h2>
+  <ul>
+    <li><strong>Backend:</strong> Flask (Python) with session-based login</li>
+    <li><strong>Frontend:</strong> Jinja templating with custom CSS and responsive design</li>
+    <li><strong>Database:</strong> SQLite (used for user login/sign-up)</li>
+    <li><strong>ESP32 Code:</strong> Arduino framework with WebServer library for handling HTTP POST requests</li>
+    <li><strong>Communication Protocol:</strong> Local HTTP POST requests via Wi-Fi (no internet/cloud required)</li>
+  </ul>
+
+  <h2>Servo Operation</h2>
+  <ul>
+    <li><strong>ON Command:</strong> Servo rotates to 90° to press light switch ON</li>
+    <li><strong>OFF Command:</strong> Servo rotates back to 0° to reset to OFF</li>
+    <li><strong>Rotation Delay:</strong> 2 seconds to simulate realistic switch press</li>
+    <li><strong>Initial Position:</strong> 0° (resting)</li>
+  </ul>
+
+  <h2>Environmental Conditions</h2>
+  <ul>
+    <li>Recommended indoor use only</li>
+    <li>Temperature range: 0°C to 40°C (non-condensing)</li>
+    <li>Placement: Close to light switch (distance dictated by servo cable length)</li>
+  </ul>
+
+  <h2>Web Access & Compatibility</h2>
+  <ul>
+    <li>Accessible via local network only (e.g., http://192.168.0.38)</li>
+    <li>Compatible with most modern browsers (Chrome, Firefox, Safari, Edge)</li>
+    <li>Mobile and tablet-friendly interface</li>
+  </ul>
+
+  <h2>Security</h2>
+  <ul>
+    <li>Login required to use alarm and switch controls</li>
+    <li>Alarm and switch actions restricted to authenticated sessions</li>
+    <li>No external network exposure (stays on LAN)</li>
+  </ul>
+
+  <h2>Educational Use Only</h2>
+  <p>
+    CS50 Switch is an academic project built for Harvard’s CS50 final project. It is not a commercial product, and not certified for household electrical automation.
+    Please use it responsibly and only for safe, low-voltage servo-based control.
+  </p>
+</section>
+{% endblock %}
+ 

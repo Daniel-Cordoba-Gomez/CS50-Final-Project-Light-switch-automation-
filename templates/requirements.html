@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Requirements{% endblock %}
+
+{% block content %}
+<section>
+  <h1>System Requirements</h1>
+
+  <p>
+    To ensure CS50 Switch works properly, your setup must meet the following hardware, software, and network requirements. 
+    The system has been built and tested with a very specific configuration, and it's currently only compatible with that environment.
+  </p>
+
+  <h2>Hardware Requirements</h2>
+  <ul>
+    <li><strong>Microcontroller:</strong> ESP32-WROOM-32 (or equivalent with integrated Wi-Fi)</li>
+    <li><strong>Servo Motor:</strong> SG90 micro servo or MG90S (PWM-controlled)</li>
+    <li><strong>Power Source:</strong> USB 5V with stable current (recommended ≥1A)</li>
+    <li><strong>Mounting Method:</strong> Tape or 3D-printed arm for holding servo in position</li>
+    <li><strong>Computer:</strong> Any device capable of running Python and Flask locally</li>
+  </ul>
+
+  <h2>Software Requirements</h2>
+  <ul>
+    <li><strong>Python 3.10+</strong> (for backend Flask app)</li>
+    <li><strong>Flask</strong> web framework</li>
+    <li><strong>Arduino IDE</strong> (to upload ESP32 firmware)</li>
+    <li><strong>Arduino Libraries:</strong> WiFi, WebServer, ESP32Servo, time.h</li>
+    <li><strong>Flask dependencies:</strong> requests, sqlite3 (included in Python stdlib)</li>
+  </ul>
+
+  <h2>Network Requirements</h2>
+  <ul>
+    <li><strong>Wi-Fi Network:</strong> Must use the same network the ESP32 is connected to</li>
+    <li><strong>SSID:</strong> Hardcoded to <code>FABULAB</code> in the ESP32 sketch</li>
+    <li><strong>Password:</strong> Must match the ESP32 sketch (<code>ROUTERCASA01</code>)</li>
+    <li><strong>IP Configuration:</strong> You must know your ESP32's local IP address (e.g., <code>192.168.0.38</code>)</li>
+    <li><strong>Important:</strong> Not compatible with networks that change the IP on reboot (unless IP reservation is used)</li>
+  </ul>
+
+  <h2>Compatibility Notes</h2>
+  <p>
+    CS50 Switch has been designed and tested for <strong>one specific ESP32 board and one Wi-Fi network</strong>. 
+    If you change the network name (SSID) or use a different ESP32 model, the current firmware and configuration may not work.
+  </p>
+  <p>
+    If you wish to adapt the system to your own environment, you will need to:
+  </p>
+  <ul>
+    <li>Edit the ESP32 sketch to match your Wi-Fi credentials</li>
+    <li>Update the IP address in your Flask backend accordingly</li>
+    <li>Ensure your router provides consistent IP (via DHCP reservation or static IP)</li>
+  </ul>
+
+  <h2>Important Disclaimer</h2>
+  <p>
+    CS50 Switch is not intended for integration with real home automation or high-voltage systems. It is a prototype built for safe, low-voltage servo control only. Do not attempt to connect this system to high-current circuits or control electrical power directly without proper certification and supervision.
+  </p>
+</section>
+{% endblock %}
