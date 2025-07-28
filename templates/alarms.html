@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Your Alarms</h2>
+
+{% if alarms %}
+    <ul class="alarm-list">
+        {% for alarm in alarms %}
+            <li>
+                {{ "%02d" | format(alarm[1]) }}:{{ "%02d" | format(alarm[2]) }}
+                <form action="{{ url_for('delete_alarm', alarm_id=alarm[0]) }}" method="POST" style="display:inline;">
+                    <button type="submit" class="delete-button">Delete</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>You have no alarms set.</p>
+{% endif %}
+
+<a href="{{ url_for('alarm_page') }}" class="back-link">Set another alarm</a>
+{% endblock %}
