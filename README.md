@@ -1,3 +1,4 @@
+CS50 Final Project Video: https://youtu.be/YIzKUIyuuo4
 # CS50 Switch 💡🔧
 
 CS50 Switch is a smart IoT-based light switch system designed to automate your waking-up experience. Created as a final project for Harvard's CS50x, this system uses an ESP32 microcontroller, a servo motor, and a web interface to physically turn on your light switch at a scheduled time.
