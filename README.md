@@ -148,7 +148,4 @@ The end product is not just a technical project, but a useful, real-world soluti
 
 **Thank you for reviewing my final project.**
 
-```
-```
-
     
